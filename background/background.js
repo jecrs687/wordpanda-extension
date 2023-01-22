@@ -1,4 +1,4 @@
-function doSomething(ttml2Url) {
+  function doSomething(ttml2Url) {
     fetch(ttml2Url)
     .then(response => response.text())
     .then(ttml2 => {
@@ -66,11 +66,9 @@ function ttml2ToJson(ttml2Text) {
     // Retorna o objeto json
     return json;
 }
+        
 XMLHttpRequest.prototype.realOpen = XMLHttpRequest.prototype.open
 XMLHttpRequest.prototype.open = function(...value) {
-    value?.[1].includes('.ttml2')? doSomething(value?.[1]):null
+    if(value?.[1].includes('.ttml2')) doSomething(value?.[1])
     this.realOpen(value);
 };
-
-
-
