@@ -2,7 +2,6 @@
   "description": "LinguaBoost",
   "version": "1.1",
   "manifest_version": 3,
-  "content_security_policy": "'self' 'unsafe-inline'",
   "permissions": [],
   "host_permissions": [],
 
@@ -20,10 +19,8 @@
     ],
   "action": {
     "default_title": "LinguaBoost",
-    "default_icon": "react-structure/public/logo192.png",
     "default_popup": "index.html"
   },
   "icons": {
-    "16": "react-structure/public/logo192.png"
   }
 }
