@@ -1,4 +1,5 @@
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const getValues = async () => {
         await sleep(1000);
         var performance = window.performance || window.mozPerformance
@@ -71,5 +72,8 @@ window.addEventListener('load', async () => {
         const something = await getText(link)
         const json = await ttml2ToJson(something).subtitles
         const words = await orderWords(json)
-        console.log({ words })
+        const channel = new BroadcastChannel('words');
+        channel.postMessage(
+                words
+        )
 })
