@@ -73,6 +73,7 @@ window.addEventListener('load', async () => {
         const json = await ttml2ToJson(something).subtitles
         const words = await orderWords(json)
         const channel = new BroadcastChannel('words');
+        console.log({words})
         channel.postMessage(
                 words
         )

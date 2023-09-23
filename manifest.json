@@ -8,18 +8,17 @@
   "content_scripts": [
     {
         "matches": ["https://www.primevideo.com/*", "https://primevideo.com/*"],
-        "js": ["./background/back.js","./background/openModal.js"]
+        "js": ["./jobs/back.js","./jobs/openModal.js"]
     }],
  "web_accessible_resources": [
         {
-          "resources": ["./background/background.js"],
+          "resources": ["./jobs/background.js"],
           "matches": ["https://www.primevideo.com/*", "https://primevideo.com/*"]
       }
     ],
   "action": {
     "default_title": "LanguageBoost",
-    "default_popup": "./components/LanguageBoost/dist/index.html",
-    
+    "default_popup": "index.html"
   },
   "icons": {
   }

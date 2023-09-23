@@ -9,7 +9,7 @@
     "server": "serve dist --listen 8080",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build-extension": "yarn build && cp src/manifest.json dist/"
+    "build-extension": "yarn build && cp manifest.json dist/ && cp -r jobs dist/"
 
   },
   "dependencies": {
