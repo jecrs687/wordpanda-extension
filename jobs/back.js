@@ -41,40 +41,34 @@ function ttml2ToJson(ttml2Text) {
 
 async function orderWords(json) {
         let words = {}
+        let count = 0;
         for (let i = 0; i < json.length; i++) {
-                let word = json[i].word;
+                const word = json[i].word;
                 if (!new RegExp(/^[a-zA-Z][a-zA-Z'\-]+[a-zA-Z]$/).test(word)) continue;
                 if (!words[word]) {
-                        words[word] = { count: 0, moments: [], texts: [] }
+                        words[word] = { count: 0, moments: [] }
                 }
-                words[word].count += 1
-                words[word].texts.push(json[i].text)
-                words[word].moments.push(json[i].moment)
+                words[word].count += 1;
+                count += 1;
+                words[word].moments.push({ ...json[i].moment, text: json[i].text })
         }
         let sortedWords = Object.entries(words).sort((a, b) => b[1].count - a[1].count)
-        let result = []
-        for (let i = 0; i < sortedWords.length; i++) {
-                result.push({
-                        word: sortedWords[i][0],
-                        count: sortedWords[i][1].count,
-                        moments: sortedWords[i][1].moments,
-                        position: i + 1,
-                        texts: sortedWords[i][1].texts,
-                        percentage: (sortedWords[i][1].count / Object.entries(words)?.length) * 100
-                })
-        }
+        let result = sortedWords.map(([word, values], index) => ({
+                word,
+                ...values,
+                position: index,
+                percentage: (values.count / count) * 100
+        }))
         return result
 }
 
 window.addEventListener('load', async () => {
-        console.log('loaded')
         const link = await getValues();
         const something = await getText(link)
-        const json = await ttml2ToJson(something).subtitles
+        const jsonFromTTML = ttml2ToJson(something)
+        const json = jsonFromTTML.subtitles
+
         const words = await orderWords(json)
         const channel = new BroadcastChannel('words');
-        console.log({words})
-        channel.postMessage(
-                words
-        )
+        channel.postMessage({ words, jsonFromTTML })
 })

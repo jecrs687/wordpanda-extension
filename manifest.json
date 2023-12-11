@@ -1,25 +1,37 @@
-{ "name": "LanguageBoost",
+{
+  "name": "LanguageBoost",
   "description": "LanguageBoost",
   "version": "1.1",
   "manifest_version": 3,
   "permissions": [],
   "host_permissions": [],
-
   "content_scripts": [
     {
-        "matches": ["https://www.primevideo.com/*", "https://primevideo.com/*"],
-        "js": ["./jobs/back.js","./jobs/openModal.js"]
-    }],
- "web_accessible_resources": [
-        {
-          "resources": ["./jobs/background.js"],
-          "matches": ["https://www.primevideo.com/*", "https://primevideo.com/*"]
-      }
-    ],
+      "matches": [
+        "https://www.primevideo.com/*",
+        "https://primevideo.com/*"
+      ],
+      "js": [
+        "./jobs/back.js",
+        "./jobs/openModal.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "./jobs/background.js",
+        "./jobs/openModal.js"
+      ],
+      "matches": [
+        "https://www.primevideo.com/*",
+        "https://primevideo.com/*"
+      ]
+    }
+  ],
   "action": {
     "default_title": "LanguageBoost",
     "default_popup": "index.html"
   },
-  "icons": {
-  }
+  "icons": {}
 }
