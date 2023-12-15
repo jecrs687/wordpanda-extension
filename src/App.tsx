@@ -17,14 +17,21 @@ function App() {
 
   }, [])
 
-  return <iframe
-    src={'http://localhost:3000/pop-up'}
+  return <div
     style={{
       flex: 1,
+      display: 'flex',
       ...size,
-      border: 'none',
     }}
-  />
+  >
+    <iframe
+      src={'http://localhost:3000/pop-up'}
+      style={{
+        flex: 1,
+        border: 'none',
+      }}
+    />
+  </div>
 }
 
 export default App
