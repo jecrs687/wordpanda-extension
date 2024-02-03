@@ -1,10 +1,9 @@
 {
-  "name": "LanguageBoost",
-  "description": "LanguageBoost",
-  "version": "1.1",
+  "name": "WordPanda",
+  "description": "WordPanda helps you learn new words in a foreign language while watching movies and TV shows on platforms.",
+  "version": "1.1.1",
   "manifest_version": 3,
   "permissions": [],
-  "host_permissions": [],
   "content_scripts": [
     {
       "matches": [
@@ -33,5 +32,15 @@
     "default_title": "LanguageBoost",
     "default_popup": "index.html"
   },
-  "icons": {}
+  "externally_connectable": {
+    "matches": [
+      "https://www.primevideo.com/*",
+      "https://primevideo.com/*"
+    ]
+  },
+  "icons": {
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png",
+    "1024": "icons/icon-1024.png"
+  }
 }
