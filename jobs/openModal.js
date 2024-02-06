@@ -17,27 +17,23 @@ top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
 `
-modal.src = 'https://localhost:3000/extension';
-chrome.runtime.onMessage.addListener(function (msg) {
-  alert("inside chrome.runtime.onMessage")
-  try {
-    channelIframe(JSON.parse(msg))
-  }
-  catch (e) {
-    channelIframe(msg)
-  }
-})
-
-channelIframe.addEventListener('message', () => {
-  alert("inside channelIframe.addEventListener outside window")
-})
-channel.addEventListener('message', event => {
+channelIframe.addEventListener('message', event => {
+  console.log("info:" + event.data)
+});
+channel.addEventListener('message', async event => {
   const main = document.getElementsByTagName('body')[0];
   const video = document.getElementsByTagName('video')[0];
-
+  const id = 'wordPand_modal'
   const events = {
-    'sendList': () => {
-      modal.contentWindow.postMessage({
+    'setToken': (token) => {
+      alert('setToken')
+      localStorage.setItem('wordPand_token', token);
+      chrome.storage.local.set({ token: token }, function () {
+        console.log('Value is set to ' + token);
+      });
+    },
+    'sendList': function () {
+      modal.contentWindow.window.postMessage({
         name: 'subtitles_urls', content: event.data,
       }, '*');
     },
@@ -74,18 +70,30 @@ channel.addEventListener('message', event => {
   }
 
   channelIframe.addEventListener('message', event => {
-    alert("inside channelIframe.addEventListener")
     events[event?.data?.name]?.(event.content);
   })
 
   window?.addEventListener('message', event => {
-    alert(
-      JSON.stringify(event)
-    )
-    events[event?.data?.name]?.(event.content);
+    events[event?.data?.name]?.(event?.data?.content);
   })
   video.pause();
+  const token = localStorage.getItem('wordPand_token')
+  const params = new URLSearchParams(
+    {
+      from: 'extension',
+      modal: true
+    }
+  );
+  if (token) params.append('token', token)
+
+  modal.src = `https://lanboost-04a196880f88.herokuapp.com/extension/?${params.toString()}`;
+  modal.id = id;
   main.prepend(modal)
+  modal.onload = () => {
+    modal.contentWindow.postMessage({
+      name: 'subtitles_urls', content: event.data,
+    }, '*');
+  }
 });
 
 

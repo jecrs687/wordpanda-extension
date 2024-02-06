@@ -3,7 +3,9 @@
   "description": "WordPanda helps you learn new words in a foreign language while watching movies and TV shows on platforms.",
   "version": "1.1.1",
   "manifest_version": 3,
-  "permissions": [],
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -13,18 +15,6 @@
       "js": [
         "./jobs/back.js",
         "./jobs/openModal.js"
-      ]
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "./jobs/background.js",
-        "./jobs/openModal.js"
-      ],
-      "matches": [
-        "https://www.primevideo.com/*",
-        "https://primevideo.com/*"
       ]
     }
   ],
