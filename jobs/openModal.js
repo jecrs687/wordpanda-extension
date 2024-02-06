@@ -20,6 +20,12 @@ transform: translate(-50%, -50%);
 channelIframe.addEventListener('message', event => {
   console.log("info:" + event.data)
 });
+
+const getToken = async () => {
+  return await new Promise((res) =>
+    chrome?.storage?.local?.get?.(["wordPanda_token"], res)
+  );
+}
 channel.addEventListener('message', async event => {
   const main = document.getElementsByTagName('body')[0];
   const video = document.getElementsByTagName('video')[0];
@@ -28,7 +34,7 @@ channel.addEventListener('message', async event => {
     'setToken': (token) => {
       alert('setToken')
       localStorage.setItem('wordPand_token', token);
-      chrome.storage.local.set({ token: token }, function () {
+      chrome.storage.local.set({ wordPanda_token: token }, function () {
         console.log('Value is set to ' + token);
       });
     },
@@ -77,7 +83,11 @@ channel.addEventListener('message', async event => {
     events[event?.data?.name]?.(event?.data?.content);
   })
   video.pause();
-  const token = localStorage.getItem('wordPand_token')
+  const tokenChrome = (await getToken())?.wordPanda_token;
+  const token = localStorage.getItem('wordPand_token') || tokenChrome
+  if (token) chrome.storage.local.set({ wordPanda_token: token }, function () {
+    console.log('Value is set to ' + token);
+  });
   const params = new URLSearchParams(
     {
       from: 'extension',

@@ -26,19 +26,28 @@ function App() {
       })
     },
     setToken: async (token: any) => {
-      if (isLoaded)
-        await chrome.storage.local.set({ wordPand_token: token });
+      try {
+        if (isLoaded)
+          await chrome.storage.local.set({ wordPand_token: token });
+      } catch (e) {
+        console.log(e)
+      }
     },
     setLocalStorage: async (values: any) => {
-      if (isLoaded)
-        await chrome.storage.local.set(values);
+      try {
+        if (isLoaded)
+          await chrome.storage.local.set(values);
+      }
+      catch (e) {
+        console.log(e)
+      }
     },
     getLocalStorage: async (keys: any) => {
       const reference = ref as any
       if (isLoaded)
         reference?.current?.contentWindow?.postMessage({
           name: 'getLocalStorage',
-          content: keys
+          content: await chrome.storage.local.get(keys)
         }, '*')
     }
   }
