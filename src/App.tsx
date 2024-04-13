@@ -4,12 +4,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
-
+import { BASE_URL } from '../jobs/constants.json'
 
 function App() {
   const [size, setSize] = useState({
-    height: '600px',
-    width: '400px'
+    height: '00px',
+    width: '00px'
   });
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState()
@@ -25,6 +25,7 @@ function App() {
         width
       })
     },
+
     setToken: async (token: any) => {
       try {
         if (isLoaded)
@@ -90,6 +91,7 @@ function App() {
   if (loading) return <div>Loading...</div>
   const url = new URLSearchParams()
   if (token) url.append('token', token)
+  window.open(BASE_URL, '_blank')
   return <div
     style={{
       flex: 1,
@@ -98,7 +100,7 @@ function App() {
     }}
   >
     <iframe
-      src={'https://lanboost-04a196880f88.herokuapp.com/pop-up' + `/?${url.toString()}`}
+      src={BASE_URL + '/pop-up' + `/? ${url.toString()}`}
       style={{
         flex: 1,
         border: 'none',

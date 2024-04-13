@@ -1,3 +1,5 @@
+import { BASE_URL } from "./constants.json";
+
 /* eslint-disable no-undef */
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const getPerf = () => window.performance || window.mozPerformance
@@ -39,7 +41,7 @@ const getAllSubtitles = async (data) => {
 
 
 window.addEventListener('load', async () => {
-        const classToGet = await (await fetch('https://lanboost-04a196880f88.herokuapp.com/api/extension/prime/class')).json()
+        const classToGet = await (await fetch(BASE_URL + '/api/extension/prime/class')).json()
         // getUrlsSubtitle()
         const { links, image, name } = await getAllSubtitles(classToGet.data);
         // const something = await getText(link)

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
+import { BASE_URL } from "./constants.json";
 
 const channel = new BroadcastChannel('words');
 const channelIframe = new BroadcastChannel('iframe');
-
 const modal = document.createElement('iframe');
 modal.check = 'modal';
 modal.style = `
@@ -96,7 +97,7 @@ channel.addEventListener('message', async event => {
   );
   if (token) params.append('token', token)
 
-  modal.src = `https://lanboost-04a196880f88.herokuapp.com/extension/?${params.toString()}`;
+  modal.src = `${BASE_URL}/extension/?${params.toString()}`;
   modal.id = id;
   main.prepend(modal)
   modal.onload = () => {
