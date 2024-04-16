@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-import { BASE_URL } from "./constants.json";
 
-const channel = new BroadcastChannel('words');
+const channelWordsConsumer = new BroadcastChannel('wordpanda_words');
 const channelIframe = new BroadcastChannel('iframe');
 const modal = document.createElement('iframe');
 modal.check = 'modal';
@@ -23,17 +21,19 @@ channelIframe.addEventListener('message', event => {
 });
 
 const getToken = async () => {
-  return await new Promise((res) =>
-    chrome?.storage?.local?.get?.(["wordPanda_token"], res)
+  return await new Promise((res) => {
+    chrome?.storage?.local?.remove?.(["wordPanda_token"])
+    chrome?.storage?.local?.get?.(["wordPanda_token"], res);
+  }
   );
 }
-channel.addEventListener('message', async event => {
+channelWordsConsumer.addEventListener('message', async event => {
   const main = document.getElementsByTagName('body')[0];
   const video = document.getElementsByTagName('video')[0];
   const id = 'wordPand_modal'
   const events = {
     'setToken': (token) => {
-      alert('setToken')
+      alert('setToken', token)
       localStorage.setItem('wordPand_token', token);
       chrome.storage.local.set({ wordPanda_token: token }, function () {
         console.log('Value is set to ' + token);
@@ -85,7 +85,9 @@ channel.addEventListener('message', async event => {
   })
   video.pause();
   const tokenChrome = (await getToken())?.wordPanda_token;
+  localStorage.setItem('wordPand_token', tokenChrome);
   const token = localStorage.getItem('wordPand_token') || tokenChrome
+  console.log({ token })
   if (token) chrome.storage.local.set({ wordPanda_token: token }, function () {
     console.log('Value is set to ' + token);
   });
@@ -95,9 +97,14 @@ channel.addEventListener('message', async event => {
       modal: true
     }
   );
-  if (token) params.append('token', token)
-
-  modal.src = `${BASE_URL}/extension/?${params.toString()}`;
+  if (token != "undefined") params.append('token', token)
+  if (modal.src) {
+    modal.contentWindow.postMessage({
+      name: 'subtitles_urls', content: event.data,
+    }, '*');
+    return;
+  }
+  modal.src = `${globalThis.BASE_URL}/extension/?${params.toString()}`;
   modal.id = id;
   main.prepend(modal)
   modal.onload = () => {

@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
-import { BASE_URL } from '../jobs/constants.json'
+import '../jobs/constants';
 
 function App() {
   const [size, setSize] = useState({
