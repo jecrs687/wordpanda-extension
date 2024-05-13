@@ -1,16 +1,17 @@
 {
   "name": "languageboost",
   "private": true,
-  "version": "0.0.64",
+  "version": "1.2.294",
   "type": "module",
   "scripts": {
+    "start": "yarn build:auto",
     "dev": "vite",
     "build": "tsc && vite build; cp manifest.json dist/; cp -r jobs dist/; cp -r icons dist/; cp -r scripts dist/",
-    "build:auto": "npx nodemon --exec \"yarn build ; node pipe\"",
+    "build:auto": "npx nodemon --exec \"yarn build-extension\"",
     "server": "serve dist --listen 8080",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build-extension": "yarn build; rm -rf dist.zip & zip -r dist.zip dist"
+    "build-extension": "yarn build; node pipe; rm -rf dist.zip & zip -r dist.zip dist"
   },
   "dependencies": {
     "@types/chrome": "^0.0.266",
@@ -24,9 +25,10 @@
       "**/test/**",
       "**/docs/**",
       "**/node_modules/**",
-      "**/dist/**"
+      "**/dist/**",
+      ".zip"
     ],
-    "ext": "js, ts",
+    "ext": "js, ts, tsx",
     "delay": 200
   },
   "devDependencies": {

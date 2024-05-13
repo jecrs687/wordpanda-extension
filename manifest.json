@@ -1,7 +1,7 @@
 {
   "name": "WordPanda",
   "description": "WordPanda helps you learn new words in a foreign language while watching movies and TV shows on platforms.",
-  "version": "0.0.64",
+  "version": "1.2.294",
   "manifest_version": 3,
   "permissions": [
     "storage"
@@ -10,24 +10,28 @@
     {
       "matches": [
         "https://www.primevideo.com/*",
-        "https://primevideo.com/*"
+        "https://primevideo.com/*",
+        "https://localhost:3000/*"
       ],
       "run_at": "document_start",
       "js": [
         "./jobs/back.js",
         "./jobs/openModal.js",
-        "./jobs/constants.js"
+        "./jobs/constants.js",
+        "./jobs/floatButton.js"
       ]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
-        "scripts/injected.js"
+        "scripts/injected.js",
+        "icons/icon-48.png"
       ],
       "matches": [
         "https://www.primevideo.com/*",
-        "https://primevideo.com/*"
+        "https://primevideo.com/*",
+        "https://localhost:3000/*"
       ],
       "dynamic_url": true
     }
@@ -39,7 +43,8 @@
   "externally_connectable": {
     "matches": [
       "https://www.primevideo.com/*",
-      "https://primevideo.com/*"
+      "https://primevideo.com/*",
+      "https://localhost:3000/*"
     ]
   },
   "icons": {

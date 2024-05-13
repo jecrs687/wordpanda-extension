@@ -19,7 +19,6 @@ const messages = {}
 async function callGpt({ message, role = "user" }) {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer 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");
 
         var raw = JSON.stringify({
                 "model": "gpt-3.5-turbo",

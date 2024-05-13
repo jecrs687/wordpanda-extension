@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import '../jobs/constants';
@@ -29,7 +29,7 @@ function App() {
     setToken: async (token: any) => {
       try {
         if (isLoaded)
-          await chrome.storage.local.set({ wordPand_token: token });
+          await chrome.storage.local.set({ wordPanda_token: token });
       } catch (e) {
         console.log(e)
       }
@@ -55,7 +55,7 @@ function App() {
 
 
   const getItems = useCallback(async () => {
-    const items = await chrome.storage.local.get(["wordPand_token"]);
+    const items = await chrome.storage.local.get(["wordPanda_token"]);
     setLoading(false)
     setToken(items.token)
   }, [])
@@ -92,13 +92,42 @@ function App() {
   const url = new URLSearchParams()
   if (token) url.append('token', token)
   window.open(BASE_URL, '_blank')
+  const sendData = async (data: any) => {
+    chrome.runtime.sendMessage({
+      count: 12,
+      data
+    }, function (response) {
+      console.log({ response });
+    });
+  }
+
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function (tabs) {
+    chrome.scripting.executeScript({
+      target: {
+        tabId: tabs[0].id as number
+      },
+      /* @ts-expect-error */
+      function: sendData,
+    });
+  });
+
+
   return <div
+
     style={{
       flex: 1,
       display: 'flex',
       ...size,
     }}
   >
+    <button onClick={async () => {
+      sendData({ test: '123' })
+    }}>
+
+    </button>
     <iframe
       src={BASE_URL + '/pop-up' + `/? ${url.toString()}`}
       style={{
